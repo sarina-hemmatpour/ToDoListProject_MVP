@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layoutDirection="ltr"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6FAFC"
+    tools:context=".main.MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/main_toolbar">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                style="@style/h1"
+                android:textColor="@color/textColorOnSurface"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"/>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                app:srcCompat="@drawable/ic_gitlab_square_white_24dp"
+                android:layout_marginEnd="12dp"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_edit_text"
+                android:drawableStart="@drawable/ic_search_gray_24dp"
+                android:drawablePadding="8dp"
+                android:paddingStart="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:hint="Search tasks..."
+                android:textColor="@color/defaultTextColor"
+                android:textColorHint="@color/secondaryTextColor"
+                style="@style/p"/>
+
+        </FrameLayout>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingStart="12dp">
+
+            <TextView
+                android:id="@+id/main_todayTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                style="@style/h1"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="14dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="4dp"
+                />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="3.5dp"
+                android:background="@drawable/shape_underline"
+                android:layout_alignStart="@id/main_todayTv"
+                android:layout_alignBottom="@+id/main_todayTv"
+                android:layout_alignEnd="@+id/main_todayTv" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/SecondaryButton"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:text="Delete All"
+                app:icon="@drawable/ic_delete_24dp"
+                android:textSize="12sp"
+                app:iconSize="18dp"
+                android:layoutDirection="rtl"/>
+
+        </RelativeLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:clipToPadding="false"/>
+
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/empty_state"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Try adding some tasks to see them here"
+            style="@style/p"
+            android:textSize="16sp"
+            android:layout_marginTop="12dp"/>
+
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        style="@style/PrimaryButton"
+        android:text="Add New Task"
+        android:textAllCaps="true"
+        app:icon="@drawable/ic_add_24dp"
+        android:layout_margin="12dp"
+        android:minHeight="65dp"
+        android:layoutDirection="rtl"/>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

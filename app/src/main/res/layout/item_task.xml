@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:background="@drawable/background_task"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp">
+    <ImageView
+        android:id="@+id/task_iv_checkbox"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/shape_checkbox_default"
+        android:padding="4dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/task_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/DefaultText"
+        tool:text="Task Title"
+        android:layout_toEndOf="@+id/task_iv_checkbox"
+        android:layout_toStartOf="@+id/task_view_importance"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
+        android:textSize="16sp"
+        />
+
+    <View
+        android:id="@+id/task_view_importance"
+        android:layout_width="8dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/shape_importance_high_rec"/>
+
+
+
+
+
+
+</RelativeLayout>
