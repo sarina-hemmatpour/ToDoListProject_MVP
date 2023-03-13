@@ -7,12 +7,15 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.todolist_mvp.R;
+import com.example.todolist_mvp.main.MainPresenter;
 import com.example.todolist_mvp.model.Task;
 
-public class Detail extends AppCompatActivity {
+public class Detail extends AppCompatActivity implements DetailContract.View {
 
     private Task.ImportanceLevel selectedImportance = Task.ImportanceLevel.NORMAL;
     private ImageView lastSelectedImportanceIv;
+
+    MainPresenter mainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,5 +69,34 @@ public class Detail extends AppCompatActivity {
                 }
             }
         });
+
+
+        ImageView btnBack=findViewById(R.id.btn_detail_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
+    @Override
+    public void showTask(Task task) {
+
+    }
+
+    @Override
+    public void showDialog(String message) {
+
+    }
+
+    @Override
+    public void changeImportance(Task.ImportanceLevel level) {
+
+    }
+
+    @Override
+    public void setDeleteBtnVisibility(Boolean visibility) {
+
     }
 }

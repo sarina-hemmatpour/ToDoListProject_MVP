@@ -41,6 +41,7 @@
             android:paddingEnd="12dp">
 
             <EditText
+                android:id="@+id/et_main_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_edit_text"
@@ -92,6 +93,7 @@
                 android:layout_alignEnd="@+id/main_todayTv" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_main_deleteAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/SecondaryButton"
@@ -107,6 +109,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_main_tasks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="12dp"
@@ -148,6 +151,7 @@
 
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_main_addTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
