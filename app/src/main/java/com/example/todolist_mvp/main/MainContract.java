@@ -17,6 +17,8 @@ public interface MainContract {
         void showEmptyState();
         void hideEmptyState();
 
+        void loadDetailActivity();
+
         //void sedTaskState(boolean isDone); //its the same as updateTask()
 
 
