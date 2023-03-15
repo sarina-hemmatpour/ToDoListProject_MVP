@@ -34,5 +34,7 @@ public interface MainContract {
         void onAddTaskBtnClicked();
         List<Task> onSearch(String query);
 
+        void onResultReceived(int code , Task newTask);
+
     }
 }

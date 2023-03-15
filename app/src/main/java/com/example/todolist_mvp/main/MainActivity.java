@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         });
 
 
+        mainPresenter.onAttach(this);
 
     }
 
@@ -91,6 +92,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void deleteTask(Task task) {
         adaptor.removeItem(task);
+        if (adaptor.getItemCount()==0)
+            showEmptyState();
+        else
+            hideEmptyState();
     }
 
     @Override
@@ -127,10 +132,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==REQUEST_CODE){
-            if (resultCode==RESULT_OK && data!=null){
+            if (resultCode==Detail.RESULT_ADD_TASK && data!=null){
+                Task newTask=data.getParcelableExtra(Detail.EXTRA_KEY_TASK);
+
+                if (newTask!=null)
+                    mainPresenter.onResultReceived(resultCode , newTask);
 
             }
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainPresenter.onDetach();
     }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.ParcelUuid;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +29,11 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
 
     private Task task;
 
+    public static final String EXTRA_KEY_TASK ="new task";
+    public static final int RESULT_ADD_TASK =255;
+    public static final int RESULT_UPDATE_TASK =256;
+    public static final int RESULT_DELETE_TASK =257;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +43,7 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
 
         View normalImportanceBtn = findViewById(R.id.btn_detail_normalImportance);
         lastSelectedImportanceIv = normalImportanceBtn.findViewById(R.id.iv_detail_normalImportance);
+        lastSelectedImportanceIv.setImageResource(R.drawable.ic_check_white_24dp);
 
         View highImportanceBtn = findViewById(R.id.btn_detail_highImportance);
         highImportanceBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +89,7 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
         });
 
 
+
         detailPresenter=new DetailPresenter(AppDataBase.getAppDataBase(this).getTaskDao(),this);
 
 
@@ -110,6 +118,9 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
                 detailPresenter.onDeleteBtnClicked(task);
             }
         });
+
+
+        detailPresenter.onAttach(this);
     }
 
     @Override
@@ -148,9 +159,17 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
             finish();
         }
         else if (task!=null && resultCode==RESULT_OK){
-            Intent resultIntent=new Intent("newTask",task.);//********************************************
-            setResult(RESULT_OK , resultIntent);
+            Intent resultIntent=new Intent();
+            resultIntent.putExtra(EXTRA_KEY_TASK, task);
+
+            setResult(RESULT_ADD_TASK , resultIntent);
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        detailPresenter.onDetach();
     }
 }

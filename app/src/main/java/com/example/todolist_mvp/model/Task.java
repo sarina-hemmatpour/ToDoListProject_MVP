@@ -3,7 +3,6 @@ package com.example.todolist_mvp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -17,7 +16,7 @@ public class Task implements Parcelable {
     }
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
     private String title;
     private boolean isDone;
     private ImportanceLevel importance;
@@ -32,11 +31,11 @@ public class Task implements Parcelable {
         this.isDone=false;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -71,14 +70,14 @@ public class Task implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeLong(this.id);
         dest.writeString(this.title);
         dest.writeByte(this.isDone ? (byte) 1 : (byte) 0);
         dest.writeInt(this.importance == null ? -1 : this.importance.ordinal());
     }
 
     public void readFromParcel(Parcel source) {
-        this.id = source.readInt();
+        this.id = source.readLong();
         this.title = source.readString();
         this.isDone = source.readByte() != 0;
         int tmpImportance = source.readInt();
@@ -86,7 +85,7 @@ public class Task implements Parcelable {
     }
 
     protected Task(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readLong();
         this.title = in.readString();
         this.isDone = in.readByte() != 0;
         int tmpImportance = in.readInt();

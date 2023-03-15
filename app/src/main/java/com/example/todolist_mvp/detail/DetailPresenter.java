@@ -47,12 +47,11 @@ public class DetailPresenter implements DetailContract.Presenter {
         }
 
         Task newTask=new Task(title , importanceLevel);
-        long result=taskDao.add(task);
-        if (result==1) {//**************************************
-            view.finishActivity(RESULT_OK , newTask);
-        }else{
-            view.showDialog("Please Try Again!");
-        }
+        long id=taskDao.add(newTask);
+        newTask.setId(id);
+        taskDao.update(newTask);
+
+        view.finishActivity(RESULT_OK , newTask);
     }
 
     @Override

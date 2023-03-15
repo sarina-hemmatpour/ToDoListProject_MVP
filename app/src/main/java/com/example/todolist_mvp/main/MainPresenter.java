@@ -1,5 +1,6 @@
 package com.example.todolist_mvp.main;
 
+import com.example.todolist_mvp.detail.Detail;
 import com.example.todolist_mvp.model.Task;
 import com.example.todolist_mvp.model.TaskDao;
 
@@ -20,6 +21,10 @@ public class MainPresenter implements MainContract.Presenter{
 
     @Override
     public void onDeleteAllBtnClicked() {
+
+        taskDao.deleteAll();
+        view.clearAllTasks();
+        view.showEmptyState();
 
     }
 
@@ -42,6 +47,14 @@ public class MainPresenter implements MainContract.Presenter{
     @Override
     public List<Task> onSearch(String query) {
         return null;
+    }
+
+    @Override
+    public void onResultReceived(int code, Task newTask) {
+        if (code== Detail.RESULT_ADD_TASK){
+            view.addTask(newTask);
+            view.hideEmptyState();
+        }
     }
 
     @Override

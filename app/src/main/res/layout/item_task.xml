@@ -5,7 +5,8 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:background="@drawable/background_task"
     android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp">
+    android:layout_marginBottom="2dp"
+    android:paddingStart="16dp">
     <ImageView
         android:id="@+id/task_iv_checkbox"
         android:layout_width="20dp"
