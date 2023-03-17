@@ -5,13 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.ParcelUuid;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.todolist_mvp.R;
+import com.example.todolist_mvp.main.MainActivity;
 import com.example.todolist_mvp.model.AppDataBase;
 import com.example.todolist_mvp.model.Task;
 import com.google.android.material.button.MaterialButton;
@@ -29,7 +29,7 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
 
     private Task task;
 
-    public static final String EXTRA_KEY_TASK ="new task";
+    public static final String EXTRA_KEY_DETAIL_TASK ="new task";
     public static final int RESULT_ADD_TASK =255;
     public static final int RESULT_UPDATE_TASK =256;
     public static final int RESULT_DELETE_TASK =257;
@@ -40,9 +40,9 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
         setContentView(R.layout.activity_edit_task);
 
 
-
         View normalImportanceBtn = findViewById(R.id.btn_detail_normalImportance);
         lastSelectedImportanceIv = normalImportanceBtn.findViewById(R.id.iv_detail_normalImportance);
+
         lastSelectedImportanceIv.setImageResource(R.drawable.ic_check_white_24dp);
 
         View highImportanceBtn = findViewById(R.id.btn_detail_highImportance);
@@ -89,8 +89,20 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
         });
 
 
+        btnDelete=findViewById(R.id.btn_detail_delete);
+        etTitle =findViewById(R.id.et_detail_title);
 
-        detailPresenter=new DetailPresenter(AppDataBase.getAppDataBase(this).getTaskDao(),this);
+        //load task
+        task=getIntent().getParcelableExtra(MainActivity.EXTRA_KEY_TASK);
+        if (task!=null){
+            detailPresenter=new DetailPresenter(AppDataBase.getAppDataBase(this).getTaskDao() , this , this.task);
+            detailPresenter.onActivityHasTask(task);
+        }
+        else{
+            detailPresenter=new DetailPresenter(AppDataBase.getAppDataBase(this).getTaskDao(),this);
+            detailPresenter.onActivityHasNoTask();
+        }
+
 
 
         ImageView btnBack=findViewById(R.id.btn_detail_back);
@@ -101,7 +113,7 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
             }
         });
 
-        etTitle =findViewById(R.id.et_detail_title);
+
 
         MaterialButton btnSave=findViewById(R.id.btn_detail_save);
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -120,14 +132,37 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
         });
 
 
+
+
         detailPresenter.onAttach(this);
     }
 
     @Override
     public void showTask(Task task) {
-        //*****************************************importance
-
         etTitle.setText(task.getTitle());
+
+        lastSelectedImportanceIv.setImageResource(0);
+        switch (task.getImportance()){
+            case HIGH:
+//                View highImportanceBtn = findViewById(R.id.btn_detail_highImportance);
+//                lastSelectedImportanceIv = highImportanceBtn.findViewById(R.id.iv_detail_highImportance);
+//                selectedImportance= Task.ImportanceLevel.HIGH;
+                findViewById(R.id.btn_detail_highImportance).performClick();
+                break;
+            case NORMAL:
+//                View normalImportanceBtn = findViewById(R.id.btn_detail_normalImportance);
+//                lastSelectedImportanceIv = normalImportanceBtn.findViewById(R.id.iv_detail_normalImportance);
+//                selectedImportance= Task.ImportanceLevel.NORMAL;
+                findViewById(R.id.btn_detail_normalImportance).performClick();
+                break;
+            case LOW:
+//                View lowImportanceBtn = findViewById(R.id.btn_detail_lowImportance);
+//                lastSelectedImportanceIv = lowImportanceBtn.findViewById(R.id.iv_detail_lowImportance);
+//                selectedImportance= Task.ImportanceLevel.LOW;
+                findViewById(R.id.btn_detail_lowImportance).performClick();
+                break;
+        }
+        lastSelectedImportanceIv.setImageResource(R.drawable.ic_check_white_24dp);
 
     }
 
@@ -153,16 +188,31 @@ public class Detail extends AppCompatActivity implements DetailContract.View {
     }
 
     @Override
-    public void finishActivity(int resultCode ,@Nullable Task task) {
+    public void finishActivity(int resultCode ,@Nullable Task task , int operationCode) {
         if(resultCode==RESULT_CANCELED){
             setResult(RESULT_CANCELED);
             finish();
         }
         else if (task!=null && resultCode==RESULT_OK){
             Intent resultIntent=new Intent();
-            resultIntent.putExtra(EXTRA_KEY_TASK, task);
+            if(operationCode==Detail.RESULT_ADD_TASK){
 
-            setResult(RESULT_ADD_TASK , resultIntent);
+                resultIntent.putExtra(EXTRA_KEY_DETAIL_TASK, task);
+
+                setResult(RESULT_ADD_TASK , resultIntent);
+
+            }
+            else if (operationCode==RESULT_UPDATE_TASK){
+                resultIntent.putExtra(EXTRA_KEY_DETAIL_TASK, task);
+
+                setResult(RESULT_UPDATE_TASK, resultIntent);
+            }
+            else if (operationCode==RESULT_DELETE_TASK){
+
+                resultIntent.putExtra(EXTRA_KEY_DETAIL_TASK, task);
+
+                setResult(RESULT_DELETE_TASK, resultIntent);
+            }
             finish();
         }
     }

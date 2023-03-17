@@ -46,21 +46,41 @@ public class DetailPresenter implements DetailContract.Presenter {
             return;
         }
 
-        Task newTask=new Task(title , importanceLevel);
-        long id=taskDao.add(newTask);
-        newTask.setId(id);
-        taskDao.update(newTask);
+        if (this.task==null){
+            Task newTask=new Task(title , importanceLevel);
+            long id=taskDao.add(newTask);
+            newTask.setId(id);
+            taskDao.update(newTask);
+            view.finishActivity(RESULT_OK , newTask, Detail.RESULT_ADD_TASK);
+        }else {
+            task.setTitle(title);
+            task.setImportance(importanceLevel);
+            taskDao.update(task);
+            view.finishActivity(RESULT_OK , task,Detail.RESULT_UPDATE_TASK );
+        }
 
-        view.finishActivity(RESULT_OK , newTask);
+
     }
 
     @Override
     public void onDeleteBtnClicked(Task task) {
-
+        taskDao.delete(task);
+        view.finishActivity(RESULT_OK , task, Detail.RESULT_DELETE_TASK);
     }
 
     @Override
     public void onBackBtnClicked() {
-        view.finishActivity(RESULT_CANCELED , null);
+        view.finishActivity(RESULT_CANCELED , null , -1000);
+    }
+
+    @Override
+    public void onActivityHasTask(Task task) {
+        view.showTask(task);
+        view.setDeleteBtnVisibility(true);
+    }
+
+    @Override
+    public void onActivityHasNoTask() {
+        view.setDeleteBtnVisibility(false);
     }
 }

@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -15,7 +17,6 @@ import com.example.todolist_mvp.R;
 import com.example.todolist_mvp.detail.Detail;
 import com.example.todolist_mvp.model.AppDataBase;
 import com.example.todolist_mvp.model.Task;
-import com.example.todolist_mvp.model.TaskDao;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MainPresenter mainPresenter;
 
     private final static int REQUEST_CODE=1000;
+
+    public final static String EXTRA_KEY_TASK="task";
 
     private LinearLayout fullState;
     private LinearLayout emptyState;
@@ -64,6 +67,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             }
         });
 
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                mainPresenter.onSearch(charSequence.toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         mainPresenter.onAttach(this);
 
@@ -77,25 +99,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void clearAllTasks() {
         adaptor.clearItems();
+        mainPresenter.setTasks(adaptor.getTasks());
     }
 
     @Override
     public void addTask(Task task) {
         adaptor.addItem(task);
+        mainPresenter.setTasks(adaptor.getTasks());
     }
 
     @Override
     public void updateTask(Task task) {
         adaptor.updateItem(task);
+        mainPresenter.setTasks(adaptor.getTasks());
     }
 
     @Override
     public void deleteTask(Task task) {
         adaptor.removeItem(task);
-        if (adaptor.getItemCount()==0)
-            showEmptyState();
-        else
-            hideEmptyState();
+        mainPresenter.setTasks(adaptor.getTasks());
     }
 
     @Override
@@ -118,6 +140,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
+    public void loadDetailActivity(Task task) {
+
+        Intent intentTask=new Intent(MainActivity.this , Detail.class);
+        intentTask.putExtra(EXTRA_KEY_TASK , task);
+
+        startActivityForResult(intentTask, REQUEST_CODE);
+
+    }
+
+    @Override
     public void onItemClicked(Task task) {
         mainPresenter.onTaskClicked(task);
     }
@@ -131,14 +163,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==REQUEST_CODE){
-            if (resultCode==Detail.RESULT_ADD_TASK && data!=null){
-                Task newTask=data.getParcelableExtra(Detail.EXTRA_KEY_TASK);
-
-                if (newTask!=null)
-                    mainPresenter.onResultReceived(resultCode , newTask);
-
+        if (requestCode==REQUEST_CODE && data!=null){
+            Task resultTask=data.getParcelableExtra(Detail.EXTRA_KEY_DETAIL_TASK);
+            if (resultTask!=null){
+                mainPresenter.onResultReceived(resultCode , resultTask);
             }
+
 
         }
     }

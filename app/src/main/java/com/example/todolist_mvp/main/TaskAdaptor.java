@@ -3,6 +3,7 @@ package com.example.todolist_mvp.main;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todolist_mvp.R;
@@ -23,8 +25,11 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.TaskViewHolder
     private List<Task> tasks=new ArrayList<>();
     public TaskAdapterEventListener eventListener;
 
+    private Context context;
+
     public TaskAdaptor(TaskAdapterEventListener eventListener , Context context) {
         this.eventListener = eventListener;
+        this.context=context;
     }
 
     public List<Task> getTasks() {
@@ -82,13 +87,13 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.TaskViewHolder
 
             switch (task.getImportance()){
                 case LOW:
-                    importance.setBackgroundResource(R.drawable.shape_importance_low_rec);
+                    importance.setBackground((Drawable) ResourcesCompat.getDrawable(context.getResources() , R.drawable.shape_importance_low_rec , null));
                     break;
                 case NORMAL:
                     importance.setBackgroundResource(0);
                     break;
                 case HIGH:
-                    importance.setBackgroundResource(R.drawable.shape_importance_high_rec);
+                    importance.setBackground((Drawable) ResourcesCompat.getDrawable(context.getResources(),R.drawable.shape_importance_high_rec, null));
                     break;
             }
 
@@ -101,7 +106,7 @@ public class TaskAdaptor extends RecyclerView.Adapter<TaskAdaptor.TaskViewHolder
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    eventListener.onItemClicked(task);
+                    eventListener.onItemLongClicked(task);
                     return false;
                 }
             });

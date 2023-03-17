@@ -13,12 +13,16 @@ public interface DetailContract {
         void showDialog(String message);
         void changeImportance(Task.ImportanceLevel level);
         void setDeleteBtnVisibility(Boolean visibility);
-        void finishActivity(int resultCode ,@Nullable Task task);
+        void finishActivity(int resultCode ,@Nullable Task task , int operationCode);
     }
 
     interface Presenter extends BasePresenter<View> {
         void onSaveBtnClicked(String title , Task.ImportanceLevel importanceLevel);
         void onDeleteBtnClicked(Task task);
         void onBackBtnClicked();
+
+        void onActivityHasTask(Task task);
+
+        void onActivityHasNoTask();
     }
 }

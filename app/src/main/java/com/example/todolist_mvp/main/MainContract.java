@@ -19,6 +19,8 @@ public interface MainContract {
 
         void loadDetailActivity();
 
+        void loadDetailActivity(Task task);
+
         //void sedTaskState(boolean isDone); //its the same as updateTask()
 
 
@@ -32,7 +34,7 @@ public interface MainContract {
         void onTaskLongClicked(Task task);
 
         void onAddTaskBtnClicked();
-        List<Task> onSearch(String query);
+        void onSearch(String query);
 
         void onResultReceived(int code , Task newTask);
 

@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tool="http://schemas.android.com/tools"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_task"
     android:layout_marginTop="2dp"
     android:layout_marginBottom="2dp"
     android:paddingStart="16dp">
+
+
     <ImageView
         android:id="@+id/task_iv_checkbox"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:background="@drawable/shape_checkbox_default"
         android:padding="4dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"/>
+        tool:layout_constraintBottom_toBottomOf="parent"
+        tool:layout_constraintStart_toStartOf="parent"
+        tool:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/task_tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         style="@style/DefaultText"
-        tool:text="Task Title"
-        android:layout_toEndOf="@+id/task_iv_checkbox"
-        android:layout_toStartOf="@+id/task_view_importance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="24dp"
         android:paddingTop="24dp"
         android:paddingBottom="24dp"
+        android:text="@string/app_name"
         android:textSize="16sp"
-        />
+        tool:layout_constraintBottom_toBottomOf="@+id/task_iv_checkbox"
+        tool:layout_constraintEnd_toStartOf="@+id/task_view_importance"
+        tool:layout_constraintStart_toEndOf="@+id/task_iv_checkbox"
+        tool:layout_constraintTop_toTopOf="@+id/task_iv_checkbox" />
 
     <View
         android:id="@+id/task_view_importance"
         android:layout_width="8dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/shape_importance_high_rec"/>
+        android:layout_height="0dp"
+        android:background="@drawable/shape_importance_high_rec"
+        tool:layout_constraintBottom_toBottomOf="@+id/task_tv_title"
+        tool:layout_constraintEnd_toEndOf="parent"
+        tool:layout_constraintTop_toTopOf="@+id/task_tv_title" />
 
 
 
 
-
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
